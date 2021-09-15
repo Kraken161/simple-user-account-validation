@@ -46,13 +46,16 @@ const userSchema = new Schema({
 	},
 })
 
+userSchema.path('password').set((value) => encryptPassword(value, secretKey))
+
 const User = mongoose.model('User', userSchema)
 
 async function main() {
+	console.log('s')
 	const newUser = new User({
 		name: 'sample',
 		email: 'sample@gmail.com',
-		password: encryptPassword('SamplePassword', secretKey),
+		password: 'SamplePassword',
 	})
 
 	try {
@@ -71,7 +74,7 @@ async function main() {
 	}
 }
 
-//main()
+main()
 
 async function getUsers() {
 	const users = await User.find({})
